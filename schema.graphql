@@ -1,0 +1,24 @@
+type Mutation {
+    newQuote(quote: String!): Quote!
+    login(username: String!, password: String!): String!
+    signup(username: String!, password: String!): String!
+}
+
+type Query {
+    topQuotes: [Quote!]!
+    quotes: [Quote!]!
+}
+
+type Quote {
+    id: ID!
+    content: String!
+    votes: Int!
+    visible: Boolean!
+    user: User
+}
+
+type User {
+    username: String!
+    isAdmin: Boolean!
+}
+
