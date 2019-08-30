@@ -23,15 +23,13 @@ class QuoteList extends Component {
                     return <div>Error!</div>
                 }
 
-                if (!props) {
-                    return <div>Loading...</div>
-                }
-
+                const loading = (!props);
+                const quotes = (loading) ? null : (props as any).recentQuotes;
 
                 return <div>
                     <h4 className="mb-3">Recent quotes</h4>
-                    <BaseQuoteList quotes={(props as any).recentQuotes}/>
-                </div>
+                    <BaseQuoteList loading={loading} quotes={quotes}/>
+                </div>;
             }}
         />;
     }

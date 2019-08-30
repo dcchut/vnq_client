@@ -1,5 +1,6 @@
 .App {
     text-align: center;
+    margin: 20px;
 }
 
 .App-logo {
@@ -67,4 +68,19 @@
 
 .search-input > input:focus {
     outline: none;
+}
+/*
+#loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    background-color: white;
+}*/
+
+#loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }

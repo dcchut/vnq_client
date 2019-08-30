@@ -86,7 +86,6 @@ class BaseLogin extends Component<Props> {
     }
 
     render() {
-        // error message
         return <div>
             <h4>Login</h4>
             {this.state.errorMessage}

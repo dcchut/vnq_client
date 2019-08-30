@@ -1,7 +1,6 @@
 import React from "react";
 import {decode} from 'jsonwebtoken';
 
-
 interface ContextType {
     user_id: number | null,
     username: string,

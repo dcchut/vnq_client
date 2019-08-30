@@ -22,14 +22,13 @@ class TopQuoteList extends Component {
                 if (error) {
                     return <div>Error!</div>
                 }
-                if (!props) {
-                    return <div>Loading...</div>
-                }
+                const loading = (!props);
+                const quotes = (loading) ? null : (props as any).topQuotes;
 
                 return <div>
-                    <h4 className="mb-3">Top Quotes</h4>
-                    <BaseQuoteList quotes={props.topQuotes}/>
-                </div>
+                    <h4 className="mb-3">Top quotes</h4>
+                    <BaseQuoteList loading={loading} quotes={quotes}/>
+                </div>;
             }}
         />;
     }
