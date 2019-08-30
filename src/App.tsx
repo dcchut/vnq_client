@@ -12,7 +12,7 @@ import history from './helpers/history';
 import Provider from './helpers/context';
 import Header from "./components/Header";
 import {NoMatch} from "./components/NoMatch";
-import { NotLoggedInRoute, LoggedInRoute } from "./components/LoginGuards";
+import {LoggedInRoute, NotLoggedInRoute} from "./components/LoginGuards";
 
 class App extends React.Component {
     render() {

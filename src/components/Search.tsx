@@ -1,20 +1,26 @@
 import React, {Component} from "react";
 import SearchInput from 'react-search-input'
+// @ts-ignore
 import {QueryRenderer} from "react-relay/lib";
 import environment from "../environment";
 import graphql from "babel-plugin-relay/macro";
 import BaseQuoteList from "./BaseQuoteList";
 import memoize from "memoize-one";
+import {QuoteType} from "./Quote";
 
-class BaseSearch extends Component {
-    state = { filterText: '' };
+interface Props {
+    quotes: QuoteType[],
+}
+
+class BaseSearch extends Component<Props> {
+    state = {filterText: ''};
 
     filter = memoize(
-        (list, filterText) => list.filter(item => item.content.includes(filterText))
+        (list: QuoteType[], filterText) => list.filter(item => item.content.includes(filterText))
     );
 
-    searchUpdated = (term) => {
-        this.setState({ filterText: term });
+    searchUpdated = (term: string) => {
+        this.setState({filterText: term});
     };
 
     render() {
@@ -25,7 +31,7 @@ class BaseSearch extends Component {
             <SearchInput className="search-input w-100" onChange={this.searchUpdated}/>
             {filteredQuotes.length > 0 ? <BaseQuoteList quotes={filteredQuotes}/> : <div>
                 No results found.
-                </div>}
+            </div>}
         </div>
     }
 }
@@ -44,7 +50,7 @@ export default class Search extends Component {
         }
     }`}
             variables={{}}
-            render={({error, props}) => {
+            render={({error, props}: any) => {
                 if (error) {
                     return <div>Error!</div>
                 }
@@ -53,7 +59,7 @@ export default class Search extends Component {
                     return <div>Loading...</div>
                 }
 
-                return <BaseSearch quotes={props.recentQuotes} />
-            }} />
+                return <BaseSearch quotes={props.recentQuotes}/>
+            }}/>
     }
 }

@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React, {ChangeEvent, Component, FormEvent} from "react";
 import graphql from "babel-plugin-relay/macro";
+// @ts-ignore
 import {commitMutation} from "react-relay/lib";
 import environment from "../environment";
-import Quote from "./Quote";
+import Quote, {QuoteType} from "./Quote";
 
 const SUBMIT_MUTATION = graphql`
     mutation QuoteSubmitMutation(
@@ -21,7 +22,7 @@ const SUBMIT_MUTATION = graphql`
     }
 `;
 
-function submit(quote, handleQuote) {
+function submit(quote: string, handleQuote: (arg0: QuoteType) => void) {
     const variables = {
         quote,
     };
@@ -31,21 +32,26 @@ function submit(quote, handleQuote) {
         {
             mutation: SUBMIT_MUTATION,
             variables,
-            onCompleted: (response, errors) => {
+            onCompleted: (response: any, error: any) => {
                 if (response.newQuote) {
                     handleQuote(response.newQuote);
                 }
             },
-            onError: err => {
-                // handle errors here
-                console.error(err)
+            onError: (err: any) => {
             },
         },
     );
 }
 
+interface State {
+    quote: string,
+    quote_object: QuoteType | null,
+}
+
 class QuoteSubmit extends Component {
-    constructor(props) {
+    state: State;
+
+    constructor(props: any) {
         super(props);
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -58,8 +64,8 @@ class QuoteSubmit extends Component {
         };
     }
 
-    handleInputChange(event) {
-        const target = event.target;
+    handleInputChange(event: ChangeEvent) {
+        const target = event.target as HTMLInputElement;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
@@ -68,7 +74,7 @@ class QuoteSubmit extends Component {
         });
     }
 
-    handleSubmit(event, handleQuote) {
+    handleSubmit(event: FormEvent, handleQuote: (arg0: QuoteType) => void) {
         event.preventDefault();
 
         if (this.state.quote) {
@@ -77,8 +83,8 @@ class QuoteSubmit extends Component {
         }
     }
 
-    handleQuote(quote_object) {
-        this.setState({quote_object} );
+    handleQuote(quote_object: QuoteType) {
+        this.setState({quote_object});
     }
 
     render() {
@@ -89,9 +95,11 @@ class QuoteSubmit extends Component {
                 that
                 you remove any timestamps and unnecessary text. Quotes must be approved by a moderator before they are
                 published.</p>
-                <form onSubmit={(event) => this.handleSubmit(event, this.handleQuote)}><textarea name="quote" rows="10" cols="50" className="form-control"
-                                                             onChange={this.handleInputChange}
-                                                             value={this.state.quote}/>
+                <form onSubmit={(event) => this.handleSubmit(event, this.handleQuote)}><textarea name="quote" rows={10}
+                                                                                                 cols={50}
+                                                                                                 className="form-control"
+                                                                                                 onChange={this.handleInputChange}
+                                                                                                 value={this.state.quote}/>
                     <button type="submit" className="btn btn-primary btn-large mt-3">Submit</button>
                 </form>
             </div>;
@@ -99,10 +107,10 @@ class QuoteSubmit extends Component {
             return <div>
                 <div className="card mb-3">
                     <div className="card-body">
-                        Your quote was successfully submitted!  It is now awaiting moderation.
+                        Your quote was successfully submitted! It is now awaiting moderation.
                     </div>
                 </div>
-                <Quote quote={this.state.quote_object} />
+                <Quote quote={this.state.quote_object}/>
             </div>
         }
     }

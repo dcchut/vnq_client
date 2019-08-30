@@ -1,9 +1,18 @@
 import React, {Component} from "react";
 
-class Quote extends Component {
+export type QuoteType = {
+    id: string,
+    votes: number,
+    content: string,
+};
+
+interface Props {
+    quote: QuoteType
+}
+
+class Quote extends Component<Props> {
     render() {
         const {quote} = this.props;
-
         const url = `/quote/${quote.id}`;
 
         return <div className="card border-dark mb-3">

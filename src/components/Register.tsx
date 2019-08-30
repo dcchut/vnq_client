@@ -4,7 +4,7 @@ import graphql from 'babel-plugin-relay/macro';
 import environment from '../environment';
 import history from '../helpers/history';
 import {AppContext} from '../helpers/context';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {ErrorMessage, Field, Form, Formik} from 'formik';
 
 const REGISTER_MUTATION = graphql`
     mutation RegisterMutation(
@@ -15,7 +15,7 @@ const REGISTER_MUTATION = graphql`
     }
 `;
 
-function register(userChanged, username, password, setSubmitting, handleError) {
+function register(userChanged: (arg0: string) => void, username: string, password: string, setSubmitting: (arg0: boolean) => void, handleError: (arg0: JSX.Element) => void) {
     const variables = {
         username,
         password,
@@ -26,7 +26,7 @@ function register(userChanged, username, password, setSubmitting, handleError) {
         {
             mutation: REGISTER_MUTATION,
             variables,
-            onCompleted: (response, errors) => {
+            onCompleted: (response: any, errors) => {
                 if (response.signup) {
                     userChanged(response.signup);
                 }
@@ -44,19 +44,25 @@ function register(userChanged, username, password, setSubmitting, handleError) {
     );
 }
 
+interface State {
+    username: string,
+    password: string,
+    errorMessage: JSX.Element,
+}
 
 class Register extends Component {
-    constructor(props) {
+    state: State;
+
+    constructor(props: any) {
         super(props);
 
-        this.state = {username: '', password: '', errorMessage: ''};
+        this.state = {username: '', password: '', errorMessage: <div/>};
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleError = this.handleError.bind(this);
     }
 
-    handleInputChange(event) {
-        const target = event.target;
+    handleInputChange(event: Event) {
+        const target = event.target as HTMLInputElement;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
@@ -65,17 +71,8 @@ class Register extends Component {
         });
     }
 
-    handleSubmit(event, userChanged) {
-        event.preventDefault();
-
-        if (this.state.username && this.state.password) {
-            // do some validation perhaps
-            register(userChanged, this.state.username, this.state.password);
-        }
-    }
-
-    handleError(errorMessage) {
-        this.setState( {
+    handleError(errorMessage: JSX.Element) {
+        this.setState({
             errorMessage
         });
     }
@@ -89,38 +86,48 @@ class Register extends Component {
                     <Formik
                         initialValues={{username: '', password: ''}}
                         validate={values => {
-                            let errors = {};
+                            let errors = {
+                                username: '',
+                                password: ''
+                            };
+
                             if (!values.username) {
                                 errors.username = "Required";
                             }
                             if (!values.password) {
                                 errors.password = "Required";
                             }
-                            return errors;
+
+                            if (errors.username !== '' || errors.password !== '') {
+                                return errors;
+                            } else {
+                                return {};
+                            }
                         }}
-                        onSubmit={( { username, password } , { setSubmitting }) => {
-                            this.handleError(null);
+                        onSubmit={({username, password}, {setSubmitting}) => {
+                            this.handleError(<div/>);
                             register(userChanged, username, password, setSubmitting, this.handleError);
                         }
                         }
-                        >
-                        {({ isSubmitting }) => (
+                    >
+                        {({isSubmitting}) => (
                             <Form className="mt-3 mb-3">
                                 <div className="form-group">
                                     <label htmlFor="username">Username</label>
-                                    <Field type="text" name="username" className="form-control" />
-                                    <ErrorMessage name="username" component="div" className="invalid-feedback mt-2" />
+                                    <Field type="text" name="username" className="form-control"/>
+                                    <ErrorMessage name="username" component="div" className="invalid-feedback mt-2"/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password">Password</label>
-                                    <Field type="password" name="password" className="form-control" />
-                                        <ErrorMessage name="password" component="div" className="invalid-feedback mt-2" />
+                                    <Field type="password" name="password" className="form-control"/>
+                                    <ErrorMessage name="password" component="div" className="invalid-feedback mt-2"/>
                                 </div>
-                                <button type="submit" disabled={isSubmitting} className="btn btn-large btn-primary mt-3">
+                                <button type="submit" disabled={isSubmitting}
+                                        className="btn btn-large btn-primary mt-3">
                                     Register
                                 </button>
                             </Form>
-                            )}
+                        )}
                     </Formik>
                 </div>
             }

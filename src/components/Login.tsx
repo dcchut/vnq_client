@@ -4,7 +4,7 @@ import graphql from 'babel-plugin-relay/macro';
 import environment from '../environment';
 import history from '../helpers/history';
 import {AppContext} from '../helpers/context';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {Link} from "react-router-dom";
 
 const LOGIN_MUTATION = graphql`
@@ -16,7 +16,7 @@ const LOGIN_MUTATION = graphql`
     }
 `;
 
-function login(userChanged, username, password, setSubmitting, handleError) {
+function login(userChanged: (arg0: string) => void, username: string, password: string, setSubmitting: (arg0: boolean) => void, handleError: (arg0: JSX.Element) => void) {
     const variables = {
         username,
         password,
@@ -27,9 +27,9 @@ function login(userChanged, username, password, setSubmitting, handleError) {
         {
             mutation: LOGIN_MUTATION,
             variables,
-            onCompleted: (response, errors) => {
+            onCompleted: (response: any, error) => {
                 if (response.login) {
-                    userChanged(response.login);
+                    userChanged(response.login)
                 }
                 history.push('/');
             },
@@ -45,38 +45,42 @@ function login(userChanged, username, password, setSubmitting, handleError) {
     );
 }
 
+interface Props {
+    userChanged: (arg0: string | null) => void,
+}
 
-class BaseLogin extends Component {
-    constructor(props) {
+interface State {
+    username: string,
+    password: string,
+    errorMessage: string,
+}
+
+class BaseLogin extends Component<Props> {
+    state: State;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {username: '', password: '', errorMessage: ''};
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleError = this.handleError.bind(this);
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+    handleInputChange(event: Event) {
+        const target = event.target as HTMLInputElement;
 
-        this.setState({
-            [name]: value
-        });
-    }
+        if (target) {
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
 
-    handleSubmit(event, userChanged) {
-        event.preventDefault();
-
-        if (this.state.username && this.state.password) {
-            // do some validation perhaps
-            login(userChanged, this.state.username, this.state.password);
+            this.setState({
+                [name]: value
+            });
         }
     }
 
-    handleError(errorMessage) {
-        this.setState( {
+    handleError(errorMessage: JSX.Element | null) {
+        this.setState({
             errorMessage
         });
     }
@@ -88,15 +92,24 @@ class BaseLogin extends Component {
             {this.state.errorMessage}
             <Formik
                 initialValues={{username: '', password: ''}}
-                validate={values => {
-                    let errors = {};
+                validate={(values) => {
+                    let errors = {
+                        username: '',
+                        password: '',
+                    };
+
                     if (!values.username) {
                         errors.username = "Required";
                     }
                     if (!values.password) {
                         errors.password = "Required";
                     }
-                    return errors;
+
+                    if (errors.username !== '' || errors.password !== '') {
+                        return errors;
+                    } else {
+                        return {};
+                    }
                 }}
                 onSubmit={({username, password}, {setSubmitting}) => {
                     this.handleError(null);
@@ -125,7 +138,7 @@ class BaseLogin extends Component {
             </Formik>
             <div className="card">
                 <div className="card-body">
-                    New to VNQ?  <Link to="/register" className="alert-link">Create an account</Link>.
+                    New to VNQ? <Link to="/register" className="alert-link">Create an account</Link>.
                 </div>
             </div>
 
@@ -136,7 +149,10 @@ class BaseLogin extends Component {
 export default class Login extends Component {
     render() {
         return <AppContext.Consumer>
-                {({userChanged}) => <BaseLogin userChanged={userChanged} />}
-         </AppContext.Consumer>
+            {({userChanged}) => {
+                return <BaseLogin userChanged={userChanged}/>
+            }
+            }
+        </AppContext.Consumer>;
     }
 }

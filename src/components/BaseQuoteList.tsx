@@ -1,7 +1,11 @@
 import React, {Component} from "react";
-import Quote from './Quote';
+import Quote, {QuoteType} from './Quote';
 
-class BaseQuoteList extends Component {
+interface Props {
+    quotes: QuoteType[],
+}
+
+class BaseQuoteList extends Component<Props> {
     render() {
         const {quotes} = this.props;
 

@@ -1,9 +1,13 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom';
 import {AppContext} from "../helpers/context";
-import { IsAdmin, LoggedIn, NotLoggedIn } from "./LoginGuards";
+import {IsAdmin, LoggedIn, NotLoggedIn} from "./LoginGuards";
 
-class BaseHeader extends Component {
+interface Props {
+    username: string,
+}
+
+class BaseHeader extends Component<Props> {
     render() {
         return <div className="bg-dark mb-3">
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -41,8 +45,8 @@ class BaseHeader extends Component {
 export default class Header extends Component {
     render() {
         return <AppContext.Consumer>
-            {( {username} ) => {
-             return   <BaseHeader username={username}/>
+            {({username}) => {
+                return <BaseHeader username={username}/>
             }
             }
         </AppContext.Consumer>;
