@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash e5a341b5684fb67c4aebab7e397393f3
+ * @relayHash 4bfe7e846fc6c4d494f30595cd3a81a7
  */
 
 /* eslint-disable */
@@ -11,7 +11,7 @@
 import type { ConcreteRequest } from 'relay-runtime';
 export type QuoteListQuotesQueryVariables = {||};
 export type QuoteListQuotesQueryResponse = {|
-  +quotes: $ReadOnlyArray<{|
+  +recentQuotes: $ReadOnlyArray<{|
     +id: string,
     +votes: number,
     +content: string,
@@ -26,7 +26,7 @@ export type QuoteListQuotesQuery = {|
 
 /*
 query QuoteListQuotesQuery {
-  quotes {
+  recentQuotes {
     id
     votes
     content
@@ -39,7 +39,7 @@ const node/*: ConcreteRequest*/ = (function () {
         {
             "kind": "LinkedField",
             "alias": null,
-            "name": "quotes",
+            "name": "recentQuotes",
             "storageKey": null,
             "args": null,
             "concreteType": "Quote",
@@ -89,11 +89,11 @@ const node/*: ConcreteRequest*/ = (function () {
             "operationKind": "query",
             "name": "QuoteListQuotesQuery",
             "id": null,
-            "text": "query QuoteListQuotesQuery {\n  quotes {\n    id\n    votes\n    content\n  }\n}\n",
+            "text": "query QuoteListQuotesQuery {\n  recentQuotes {\n    id\n    votes\n    content\n  }\n}\n",
             "metadata": {}
         }
     };
 })();
 // prettier-ignore
-(node/*: any*/).hash = 'c93fe04c3173e51e843e09774c05d5ba';
+(node/*: any*/).hash = '13cd4f95a8558ee49615642ac189357b';
 module.exports = node;

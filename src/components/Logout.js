@@ -1,24 +1,23 @@
 import React, {Component} from "react";
-import history from '../helpers/history';
-import AuthContext from "../helpers/context";
+import { Redirect } from "react-router-dom";
+import {AppContext} from "../helpers/context";
 
 class BaseLogout extends Component {
     componentDidMount() {
-        this.props.auth.clearToken();
-        history.push('/');
+        this.props.userChanged(null);
     }
 
     render() {
-        return <div/>;
+        return <Redirect to="/" />
     }
 }
 
 const Logout = () => (
-    <AuthContext.Consumer>
-        {auth =>
-            <BaseLogout auth={auth}/>
+    <AppContext.Consumer>
+        {({userChanged}) =>
+            <BaseLogout userChanged={userChanged}/>
         }
-    </AuthContext.Consumer>
+    </AppContext.Consumer>
 );
 
 export default Logout;

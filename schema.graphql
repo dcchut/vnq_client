@@ -6,7 +6,7 @@ type Mutation {
 
 type Query {
     topQuotes: [Quote!]!
-    quotes: [Quote!]!
+    recentQuotes: [Quote!]!
 }
 
 type Quote {
@@ -21,4 +21,3 @@ type User {
     username: String!
     isAdmin: Boolean!
 }
-

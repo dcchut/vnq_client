@@ -5,11 +5,15 @@ class BaseQuoteList extends Component {
     render() {
         const {quotes} = this.props;
 
-        return quotes.map((quote) => {
-            return <div key={quote.id}>
-                <Quote quote={quote}/>
-            </div>
-        });
+        if (!quotes) {
+            return <div>Failed to load.</div>;
+        } else {
+            return quotes.map((quote) => {
+                return <div key={quote.id}>
+                    <Quote quote={quote}/>
+                </div>
+            });
+        }
     }
 }
 

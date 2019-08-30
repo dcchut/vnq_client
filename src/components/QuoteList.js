@@ -11,7 +11,7 @@ class QuoteList extends Component {
             query={graphql`
         query QuoteListQuotesQuery
         {
-          quotes {
+          recentQuotes {
             id
             votes
             content
@@ -22,13 +22,14 @@ class QuoteList extends Component {
                 if (error) {
                     return <div>Error!</div>
                 }
+
                 if (!props) {
                     return <div>Loading...</div>
                 }
 
                 return <div>
                     <h4 className="mb-3">Recent quotes</h4>
-                    <BaseQuoteList quotes={props.quotes}/>
+                    <BaseQuoteList quotes={props.recentQuotes}/>
                 </div>
             }}
         />;
