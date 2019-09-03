@@ -63,8 +63,6 @@ class BaseHeader extends Component<RouteComponentProps, {}> {
                                 <HeaderLink link="/submit" pathname={this.props.location.pathname} text="Submit"/>
                                 <HeaderLink link="/top" pathname={this.props.location.pathname} text="Top"/>
                                 <HeaderLink link="/search" pathname={this.props.location.pathname} text="Search"/>
-                                <HeaderLink link="/moderate" pathname={this.props.location.pathname} text="Moderate"
-                                            requires_admin/>
                                 <HeaderLink link="/logout" pathname={this.props.location.pathname} text="Logout"
                                             requires_login/>
                                 <HeaderLink link="/login" pathname={this.props.location.pathname} text="Login"

@@ -68,15 +68,12 @@ class BaseLogin extends Component<Props> {
 
     handleInputChange(event: Event) {
         const target = event.target as HTMLInputElement;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
 
-        if (target) {
-            const value = target.type === 'checkbox' ? target.checked : target.value;
-            const name = target.name;
-
-            this.setState({
-                [name]: value
-            });
-        }
+        this.setState({
+            [name]: value
+        });
     }
 
     handleError(errorMessage: JSX.Element | null) {

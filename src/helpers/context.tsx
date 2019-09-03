@@ -25,6 +25,13 @@ export const AppContext = React.createContext(DEFAULT_STATE);
 export default class Provider extends React.Component {
     state: ContextType = DEFAULT_STATE;
 
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            this.userChanged(token);
+        }
+    }
+
     userChanged = (token: string | null) => {
         if (!token) {
             this.setState(DEFAULT_STATE);
@@ -41,8 +48,10 @@ export default class Provider extends React.Component {
                 username: decoded.username,
                 token: token,
             });
+            localStorage.setItem('token', token);
         } else {
             this.setState(DEFAULT_STATE);
+            localStorage.removeItem('token');
         }
     };
 
