@@ -7,7 +7,7 @@
     "@types/jsonwebtoken": "^8.3.3",
     "@types/node": "^12.7.3",
     "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
+    "@types/react-dom": "^16.9.5",
     "@types/react-relay": "^5.0.0",
     "@types/react-router-dom": "^4.3.5",
     "babel-plugin-relay": "^5.0.0",
