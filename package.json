@@ -11,7 +11,7 @@
     "@types/react-relay": "^5.0.0",
     "@types/react-router-dom": "^4.3.5",
     "babel-plugin-relay": "^5.0.0",
-    "formik": "^1.5.8",
+    "formik": "^2.1.4",
     "graphql": "^14.6.0",
     "history": "^4.10.1",
     "jsonwebtoken": "^8.5.1",
