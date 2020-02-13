@@ -52,6 +52,6 @@
   "devDependencies": {
     "graphql-compiler": "^1.7.0",
     "relay-compiler": "^9.0.0",
-    "relay-compiler-language-typescript": "^10.1.4"
+    "relay-compiler-language-typescript": "^10.1.5"
   }
 }
