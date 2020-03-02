@@ -25,7 +25,7 @@
     "react-spinners": "^0.8.0",
     "relay": "^0.8.0-1",
     "relay-runtime": "^9.0.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
