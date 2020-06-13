@@ -13,7 +13,7 @@
     "babel-plugin-relay": "^9.0.0",
     "formik": "^2.1.4",
     "graphql": "^14.6.0",
-    "history": "^4.10.1",
+    "history": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "memoize-one": "^5.1.1",
     "react": "^16.13.0",
